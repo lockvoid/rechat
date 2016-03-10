@@ -4,9 +4,16 @@
 
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="jspm_packages/system.js"></script>
+    <script src="config.js"></script>
   </head>
 
   <body>
-    <div id="app">Loading...</div>
+    <app id="main">Loading...</app>
+
+    <script>
+      System.import('client').catch(console.log.bind(console));
+    </script>
   </body>
 </html>

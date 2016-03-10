@@ -10,9 +10,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve assets
 
-app.get('/', function (req, res) {
-  res.sendFile(`${process.cwd()}/index.html`);
-});
+app.use('/jspm_packages', express.static('./jspm_packages'));
+
+app.use('/', express.static('./'));
 
 // Start server
 
