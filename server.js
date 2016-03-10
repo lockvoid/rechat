@@ -1,7 +1,12 @@
-const express = require('express');
 const bodyParser = require('body-parser');
+const express = require('express');
+const knex = require('knex');
 
 const app = express();
+
+// Setup database
+
+const pg = knex(require('./knexfile')[app.get('env')]);
 
 // Parse params
 
