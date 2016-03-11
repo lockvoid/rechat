@@ -75,7 +75,7 @@ class MessageForm extends React.Component {
     return (
       <footer className="form">
         <input type="text" className="user" placeholder="Your name" onChange={this.onUserChange.bind(this)} />
-        <input type="text" className="message" placeholder="Type your message here..." ref={input => this._input = input} onKeyUp={this.sendMessage.bind(this)} />
+        <input type="text" className="message" placeholder="Type your message here..." ref={ref => this._input = ref} onKeyUp={this.sendMessage.bind(this)} />
       </footer>
     );
   }
@@ -90,6 +90,12 @@ class Main extends React.Component {
   componentDidMount() {
     this.fetchMessages();
     setInterval(this.fetchMessages.bind(this), 2000);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.messages.length < this.state.messages.length) {
+      this._history.scrollTop = this._history.scrollHeight;
+    }
   }
 
   async fetchMessages() {
@@ -109,7 +115,7 @@ class Main extends React.Component {
 
     return (
       <main>
-        <section className="history">
+        <section className="history" ref={ref => this._history = ref}>
           <ul>
             {messages.map(message => <Message message={message} key={message.id} />)}
           </ul>
