@@ -4,10 +4,6 @@ import * as ReactDOM from 'react-dom';
 const DEFAULT_HEADERS = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
 
 class Api {
-  fetchMessages() {
-    return fetch('/messages').then(Api.checkStatus).then(Api.parse);
-  }
-
   createMessage(payload) {
     return fetch('/messages', { method: 'POST', headers: DEFAULT_HEADERS, body: Api.stringify(payload) }).then(Api.checkStatus).then(Api.parse);
   }
@@ -28,6 +24,60 @@ class Api {
     return JSON.stringify(body);
   }
 }
+
+// Syncronized array
+
+function syncArray(rows, action) {
+  console.log(action);
+
+  switch (action.type) {
+    case ROW_ADDED:
+      return rowAdded(rows.slice(), action.payload);
+
+    case ROW_REMOVED:
+      return rowRemoved(rows.slice(), action.payload);
+
+    default:
+      return rows;
+  }
+}
+
+function rowAdded(rows, { row, prevRowId }) {
+  const index = nextRowIndex(rows, prevRowId);
+  rows.splice(index, 0, row);
+
+  return rows;
+}
+
+function rowRemoved(rows, { row }) {
+  let index = indexForRow(rows, row.id);
+
+  if (index > -1) {
+    rows.splice(index, 1);
+  }
+
+  return rows;
+}
+
+function indexForRow(rows, rowId) {
+  return rows.findIndex(row => row.id === rowId);
+}
+
+function nextRowIndex<T>(rows, prevRowId) {
+  if (prevRowId === null) {
+    return 0;
+  }
+
+  let index = indexForRow(rows, prevRowId);
+
+  if (index === -1) {
+    return rows.length;
+  } else {
+    return index + 1;
+  }
+}
+
+// React application
 
 class Message extends React.Component {
   render() {
@@ -87,25 +137,27 @@ class Main extends React.Component {
     this.state = { messages: [] };
   }
 
-  componentDidMount() {
-    this.fetchMessages();
-    setInterval(this.fetchMessages.bind(this), 2000);
+  componentWillMount() {
+    const { theron } = this.props;
+
+    this._subscription = theron.watch('/messages').scan(syncArray, []).subscribe(
+      messages => {
+        this.setState({ messages });
+      },
+
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this._subscription.unsubscribe();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.messages.length < this.state.messages.length) {
       this._history.scrollTop = this._history.scrollHeight;
-    }
-  }
-
-  async fetchMessages() {
-    const { api } = this.props;
-
-    try {
-      const messages = await api.fetchMessages();
-      this.setState({ messages });
-    } catch(error) {
-      console.log(error);
     }
   }
 
@@ -127,4 +179,6 @@ class Main extends React.Component {
   }
 }
 
-ReactDOM.render(<Main api={new Api()} />, document.getElementById('main'));
+const theron = new Theron('https://therondb.com', { app: 'rechat-production' })
+
+ReactDOM.render(<Main api={new Api()} theron={theron}/>, document.getElementById('main'));

@@ -17,7 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve assets
 
-
 app.get('/styles.css', (req, res) => {
   const { css } = autoprefixer.process(fs.readFileSync(`${process.cwd()}/styles.css`));
 
@@ -33,7 +32,7 @@ app.use('/', express.static('./'));
 const now = () => new Date().toISOString();
 
 app.get('/messages', ({ body }, res) => {
-  pg('messages').orderBy('created_at').then(rows => res.json(rows));
+  res.json({ queryText: pg('messages').orderBy('created_at').toString() });
 });
 
 app.post('/messages', ({ body }, res) => {
