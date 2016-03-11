@@ -9,7 +9,7 @@
     "url": "https://github.com/rosendi/rechat.git"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node --harmony_rest_parameters --harmony_destructuring server.js"
   },
   "dependencies": {
     "body-parser": "^1.15.0",
