@@ -9,6 +9,7 @@
     "url": "https://github.com/rosendi/rechat.git"
   },
   "scripts": {
+    "postinstall": "bin/postinstall.sh",
     "start": "node --harmony_rest_parameters --harmony_destructuring server.js"
   },
   "dependencies": {
