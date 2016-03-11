@@ -1,5 +1,7 @@
+const autoprefixer = require('autoprefixer');
 const bodyParser = require('body-parser');
 const express = require('express');
+const fs = require('fs');
 const knex = require('knex');
 
 const app = express();
@@ -14,6 +16,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve assets
+
+
+app.get('/styles.css', (req, res) => {
+  const { css } = autoprefixer.process(fs.readFileSync(`${process.cwd()}/styles.css`));
+
+  res.header("Content-type", "text/css");
+  res.send(css);
+});
 
 app.use('/jspm_packages', express.static('./jspm_packages'));
 app.use('/', express.static('./'));
