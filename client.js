@@ -180,6 +180,6 @@ class Main extends React.Component {
   }
 }
 
-const theron = new Theron('https://therondb.com', { app: 'rechat-production' })
+const theron = new Theron('https://therondb.com', { app: document.querySelector('meta[name="app"]').getAttribute('content') })
 
 ReactDOM.render(<Main api={new Api()} theron={theron}/>, document.getElementById('main'));

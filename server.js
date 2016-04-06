@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const knex = require('knex');
+const hogan = require('hogan-express');
 
 const app = express();
 
@@ -14,6 +15,19 @@ const pg = knex(require('./knexfile')[app.get('env')]);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Configure views
+
+app.engine('html', hogan);
+
+app.set('view engine', 'html');
+app.set('views', __dirname);
+
+// Render pages
+
+app.get('/', (req, res) => {
+  res.render('index', { app: process.env['THERON_APP'] });
+});
 
 // Serve assets
 
