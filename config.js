@@ -20,13 +20,13 @@ System.config({
   },
 
   map: {
-    "babel": "npm:babel-core@5.8.35",
-    "babel-runtime": "npm:babel-runtime@5.8.35",
+    "babel": "npm:babel-core@5.8.38",
+    "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.6",
     "css": "npm:jspm-loader-css-modules@1.0.1-beta1",
-    "react": "npm:react@0.14.7",
-    "react-dom": "npm:react-dom@0.14.7",
-    "theron": "npm:theron@0.1.1",
+    "react": "npm:react@0.14.8",
+    "react-dom": "npm:react-dom@0.14.8",
+    "theron": "npm:theron@0.1.3",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -89,7 +89,7 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
-    "npm:babel-runtime@5.8.35": {
+    "npm:babel-runtime@5.8.38": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:bindings@1.2.1": {
@@ -405,10 +405,10 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:react-dom@0.14.7": {
-      "react": "npm:react@0.14.7"
+    "npm:react-dom@0.14.8": {
+      "react": "npm:react@0.14.8"
     },
-    "npm:react@0.14.7": {
+    "npm:react@0.14.8": {
       "fbjs": "npm:fbjs@0.6.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -462,7 +462,7 @@ System.config({
       "has-flag": "npm:has-flag@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:theron@0.1.1": {
+    "npm:theron@0.1.3": {
       "immutable": "npm:immutable@3.7.6",
       "node-fetch": "npm:node-fetch@1.5.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
